@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skit 4 Brainz</title>
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8J35YHP2R"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -12,32 +8,31 @@
       gtag('js', new Date());
       gtag('config', 'G-H8J35YHP2R');
 
-      // The Jump Logic
-      function startRedirect() {
-        var targetUrl = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
-        
-        // Track the scan
+      function goToApp() {
+        // This is the "Universal Link" that most iPhones/Androids use to trigger the app
+        const youtubeLink = "youtube://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+        const webFallback = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+
         gtag('event', 'qr_scan', {
           'event_label': 'YouTube Playlist',
           'event_callback': function() {
-            window.location.replace(targetUrl);
+             window.location.href = youtubeLink;
+             setTimeout(function() { window.location.href = webFallback; }, 500);
           }
         });
-
-        // Forced Jump: If the tracker takes more than 0.5 seconds, just leave anyway
-        setTimeout(function() {
-          window.location.replace(targetUrl);
-        }, 500);
       }
-
-      // Run immediately
-      window.onload = startRedirect;
+      
+      // Try to auto-run, but the button below is the backup
+      window.onload = goToApp;
     </script>
 </head>
-<body style="background:#000; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; margin:0;">
-    <div style="text-align:center;">
-        <h1 style="font-size:3rem; letter-spacing:5px;">SKIT 4 BRAINZ</h1>
-        <p style="opacity:0.8;">Launching YouTube...</p>
-    </div>
+<body style="background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; margin:0; text-align:center;">
+    <h1 style="font-size:3rem; letter-spacing:5px;">SKIT 4 BRAINZ</h1>
+    
+    <a href="youtube://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi" 
+       onclick="goToApp()"
+       style="margin-top:20px; padding:15px 30px; background:#f00; color:#fff; text-decoration:none; border-radius:50px; font-weight:bold; font-size:1.2rem;">
+       OPEN IN YOUTUBE APP
+    </a>
 </body>
 </html>
