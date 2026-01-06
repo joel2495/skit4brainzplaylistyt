@@ -6,20 +6,37 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
 
-    <script>
-      // This waits 0.5 seconds to ensure Analytics fires before jumping
-      setTimeout(function(){
-        window.location.href = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
-      }, 500);
+      // Configure your ID
+      gtag('config', 'G-H8J35YHP2R');
+
+      // This script forces a "Pause" so the scan is actually tracked
+      function trackAndRedirect() {
+        gtag('event', 'qr_scan', {
+          'event_category': 'Flyer',
+          'event_label': 'Episode 1',
+          'event_callback': function() {
+            // Once Google says "I got the data," we move to YouTube
+            window.location.href = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+          }
+        });
+
+        // Backup Redirect: If the internet is slow, jump anyway after 1.5 seconds
+        setTimeout(function() {
+          window.location.href = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+        }, 1500);
+      }
+
+      // Fire the function as soon as the page loads
+      window.onload = trackAndRedirect;
     </script>
 
     <title>Skit 4 Brainz</title>
 </head>
-<body style="background: black; color: white; text-align: center; padding-top: 50px; font-family: sans-serif;">
-    <h2>Skit 4 Brainz</h2>
-    <p>Loading Playlist...</p>
+<body style="background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; margin: 0; text-align: center;">
+    <div>
+        <h1 style="font-size: 3rem; letter-spacing: 5px;">SKIT 4 BRAINZ</h1>
+        <p style="font-size: 1.2rem; opacity: 0.8;">Loading Playlist...</p>
+    </div>
 </body>
 </html>
