@@ -1,13 +1,40 @@
-function trackAndRedirect() {
-  const webLink = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
-  const appLink = "vnd.youtube://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+<!DOCTYPE html>
+<html>
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8J35YHP2R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8J35YHP2R');
 
-  gtag('event', 'qr_scan', {
-    'event_label': 'YouTube Playlist',
-    'event_callback': function() {
-      window.location.href = appLink;
-      setTimeout(function() { window.location.href = webLink; }, 500);
-    }
-  });
-  setTimeout(function() { window.location.href = webLink; }, 1500);
-}
+      function trackAndRedirect() {
+        // We use the EXACT same link for both. 
+        // Modern phones are designed to "intercept" this link and open the app automatically.
+        const youtubeLink = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
+
+        gtag('event', 'qr_scan', {
+          'event_label': 'YouTube Playlist',
+          'event_callback': function() {
+             // We use .replace so they can't hit "back" to get stuck on your loading page
+             window.location.replace(youtubeLink);
+          }
+        });
+
+        // Fail-safe: if the Google Analytics callback doesn't fire, redirect anyway
+        setTimeout(function() {
+          window.location.replace(youtubeLink);
+        }, 800);
+      }
+
+      window.onload = trackAndRedirect;
+    </script>
+    <title>Skit 4 Brainz</title>
+</head>
+<body style="background:#000; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; margin:0; text-align:center;">
+    <div>
+        <h1 style="font-size:3rem; letter-spacing:5px;">SKIT 4 BRAINZ</h1>
+        <p style="font-size:1.2rem; opacity:0.8;">Opening YouTube...</p>
+    </div>
+</body>
+</html>
