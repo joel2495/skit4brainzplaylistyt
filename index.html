@@ -8,25 +8,24 @@
       gtag('js', new Date());
       gtag('config', 'G-H8J35YHP2R');
 
+      // 2. The Logic to jump to YouTube
       function trackAndRedirect() {
-        // We use the EXACT same link for both. 
-        // Modern phones are designed to "intercept" this link and open the app automatically.
         const youtubeLink = "https://www.youtube.com/playlist?list=PLwIl_ocf5BH19ZJlYdE4hsdd8_o2qmKNi";
 
         gtag('event', 'qr_scan', {
           'event_label': 'YouTube Playlist',
           'event_callback': function() {
-             // We use .replace so they can't hit "back" to get stuck on your loading page
              window.location.replace(youtubeLink);
           }
         });
 
-        // Fail-safe: if the Google Analytics callback doesn't fire, redirect anyway
+        // Backup jump if Google takes too long
         setTimeout(function() {
           window.location.replace(youtubeLink);
-        }, 800);
+        }, 700);
       }
 
+      // 3. Start the jump as soon as the page loads
       window.onload = trackAndRedirect;
     </script>
     <title>Skit 4 Brainz</title>
